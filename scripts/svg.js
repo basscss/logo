@@ -10,7 +10,7 @@ var svg = [
   '</svg>'
 ].join('')
 
-fs.writeFileSync(path.join(__dirname, '../svg/basscss.svg'), svg)
+fs.writeFileSync(path.join(__dirname, '../images/basscss.svg'), svg)
 
 console.log(svg)
 
