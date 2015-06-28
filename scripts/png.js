@@ -1,10 +1,18 @@
 
 var svgpng = require('svg-to-png')
+var config = require('./config')
 
-svgpng.convert('images/basscss.svg', 'images', {
-    defaultWidth: 48,
-    defaultHeight: 48
-  })
-  .then(function() {
-    console.log('Converted to PNG')
-  })
+function convert (size) {
+  svgpng.convert('images/basscss-' + size + '.svg', 'images', {
+      defaultWidth: size,
+      defaultHeight: size
+    })
+    .then(function () {
+      console.log('Converted to ' + size + ' PNG')
+    })
+}
+
+config.sizes.forEach(function (size) {
+  convert (size)
+})
+
