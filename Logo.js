@@ -38,20 +38,27 @@ var Logo = (function (_React$Component) {
       var w = 32;
       var c = w / 2;
       var viewBox = [0, 0, w, w].join(' ');
-      //let fill = this.props.fill
-      var fill = 'rgba(0,128,255,.125)';
+      var fill = 'none'; //this.props.fill
 
       var rad = function rad(a) {
         return Math.PI * a / 180;
       };
 
-      var rx = function rx(r, a) {
-        return c + r * Math.cos(rad(a));
+      var deg = function deg(r) {
+        return r * 180 / Math.PI;
       };
 
-      var ry = function ry(r, a) {
-        return c + r * Math.sin(rad(a));
+      var rx = function rx(c, r, n) {
+        return c + r * Math.cos(rad(n));
       };
+
+      var ry = function ry(c, r, n) {
+        return c + r * Math.sin(rad(n));
+      };
+
+      // angle
+      var n = deg(Math.atan(amp / l));
+      console.log('angle', n);
 
       var d = ['M', 0, c + r, 'L', c - l, c - amp, 'L', c + l, c + amp - r, 'L', w, c - r, 'L', c + l, c + amp, 'L', c - l, c - amp + r, 'z'].join(' ');
 
@@ -72,6 +79,18 @@ var Logo = (function (_React$Component) {
           fill: 'rgba(255,0,0,.125)',
           stroke: 'red',
           strokeWidth: .125
+        },
+        blue: {
+          fill: 'rgba(0,0,255,.75)'
+        },
+        cyan: {
+          fill: 'rgba(0,255,255,.75)'
+        },
+        magenta: {
+          fill: 'rgba(255,0,255,.75)'
+        },
+        red: {
+          fill: 'rgba(255,0,0,.75)'
         }
       };
 
@@ -91,6 +110,30 @@ var Logo = (function (_React$Component) {
           _react2['default'].createElement('circle', { cx: c - l, cy: c - amp, r: r }),
           _react2['default'].createElement('circle', { cx: c + l, cy: c + amp, r: r }),
           _react2['default'].createElement('circle', { cx: c + 2 * l, cy: c, r: r })
+        ),
+        _react2['default'].createElement(
+          'g',
+          { style: styles.blue },
+          _react2['default'].createElement('circle', { cx: rx(c - l, r, n - 90), cy: ry(c - amp, r, n - 90), r: .25 }),
+          _react2['default'].createElement('circle', { cx: rx(c + l, r, n - 90), cy: ry(c + amp, r, n - 90), r: .25 })
+        ),
+        _react2['default'].createElement(
+          'g',
+          { style: styles.cyan },
+          _react2['default'].createElement('circle', { cx: rx(c + l, r, n + 90), cy: ry(c + amp, r, n - 90), r: .25 }),
+          _react2['default'].createElement('circle', { cx: rx(c + 2 * l, r, n + 90), cy: ry(c, r, n - 90), r: .25 })
+        ),
+        _react2['default'].createElement(
+          'g',
+          { style: styles.magenta },
+          _react2['default'].createElement('circle', { cx: rx(c - l, r, n + 90), cy: ry(c - amp, r, n + 90), r: .25 }),
+          _react2['default'].createElement('circle', { cx: rx(c + l, r, n + 90), cy: ry(c + amp, r, n + 90), r: .25 })
+        ),
+        _react2['default'].createElement(
+          'g',
+          { style: styles.red },
+          _react2['default'].createElement('circle', { cx: rx(c + 2 * l, r, n - 90), cy: ry(c, r, n + 90), r: .25 }),
+          _react2['default'].createElement('circle', { cx: rx(c + l, r, n - 90), cy: ry(c + amp, r, n + 90), r: .25 })
         )
       );
     }

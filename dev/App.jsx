@@ -10,7 +10,7 @@ class App extends React.Component {
     super ()
     this.state = {
       amplitude: 4,
-      wavelength: 8
+      wavelength: 7
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -33,7 +33,7 @@ class App extends React.Component {
       <div style={style}>
         <h1>Basscss Logo Dev</h1>
         <div>
-          <Logo size={256} 
+          <Logo size={512} 
             guides
             amplitude={this.state.amplitude}
             wavelength={this.state.wavelength} />
@@ -55,14 +55,18 @@ class App extends React.Component {
             value={this.state.wavelength} />
         </Box>
         <div>
-          <Logo size={128} />
+          <Logo size={128}
+            amplitude={this.state.amplitude}
+            wavelength={this.state.wavelength} />
         </div>
+        {/*
         <div>
           <Logo size={64} />
         </div>
         <div>
           <Logo />
         </div>
+        */}
       </div>
     )
   }

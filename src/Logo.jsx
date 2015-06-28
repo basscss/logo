@@ -12,20 +12,27 @@ class Logo extends React.Component {
     let w = 32
     let c = w / 2
     let viewBox = [0, 0, w, w].join(' ')
-    //let fill = this.props.fill
-    let fill = 'rgba(0,128,255,.125)'
+    let fill = 'none' //this.props.fill
 
     let rad = function(a) {
       return Math.PI * a / 180
     }
 
-    let rx = function(r, a) {
-      return c + r * Math.cos(rad(a))
+    let deg = function(r) {
+      return r * 180/Math.PI
     }
 
-    let ry = function(r, a) {
-      return c + r * Math.sin(rad(a))
+    var rx = function(c, r, n) {
+      return c + r * Math.cos(rad(n))
     }
+
+    var ry = function(c, r, n) {
+      return c + r * Math.sin(rad(n))
+    }
+
+    // angle
+    let n = deg(Math.atan(amp/l))
+    console.log('angle', n)
 
     let d = [
       'M', 0, (c + r),
@@ -64,6 +71,18 @@ class Logo extends React.Component {
         fill: 'rgba(255,0,0,.125)',
         stroke: 'red',
         strokeWidth: .125
+      },
+      blue: {
+        fill: 'rgba(0,0,255,.75)'
+      },
+      cyan: {
+        fill: 'rgba(0,255,255,.75)'
+      },
+      magenta: {
+        fill: 'rgba(255,0,255,.75)'
+      },
+      red: {
+        fill: 'rgba(255,0,0,.75)'
       }
     }
 
@@ -80,6 +99,22 @@ class Logo extends React.Component {
           <circle cx={(c - l)} cy={c - amp} r={r} />
           <circle cx={(c + l)} cy={c + amp} r={r} />
           <circle cx={(c + 2 * l)} cy={c} r={r} />
+        </g>
+        <g style={styles.blue}>
+          <circle cx={rx(c - l, r, n - 90)} cy={ry(c - amp, r, n - 90)} r={.25} />
+          <circle cx={rx(c + l, r, n - 90)} cy={ry(c + amp, r, n - 90)} r={.25} />
+        </g>
+        <g style={styles.cyan}>
+          <circle cx={rx(c + l, r, n + 90)} cy={ry(c + amp, r, n - 90)} r={.25} />
+          <circle cx={rx(c + 2 * l, r, n + 90)} cy={ry(c, r, n - 90)} r={.25} />
+        </g>
+        <g style={styles.magenta}>
+          <circle cx={rx(c - l, r, n + 90)} cy={ry(c - amp, r, n + 90)} r={.25} />
+          <circle cx={rx(c + l, r, n + 90)} cy={ry(c + amp, r, n + 90)} r={.25} />
+        </g>
+        <g style={styles.red}>
+          <circle cx={rx(c + 2 * l, r, n - 90)} cy={ry(c, r, n + 90)} r={.25} />
+          <circle cx={rx(c + l, r, n - 90)} cy={ry(c + amp, r, n + 90)} r={.25} />
         </g>
       </svg>
     )
