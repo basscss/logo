@@ -4,6 +4,7 @@ import Logo from '../Logo'
 import Box from './Box.jsx'
 import Input from './Input.jsx'
 import Range from './Range.jsx'
+import SVGCode from './SVGCode.jsx'
 import defaults from '../defaults'
 
 class App extends React.Component {
@@ -100,6 +101,9 @@ class App extends React.Component {
             step={.25}
             onChange={this.handleChange}
             value={this.state.strokeWidth} />
+        </Box>
+        <Box>
+          <SVGCode {...this.state} />
         </Box>
       </div>
     )
