@@ -12,7 +12,7 @@ function render (size) {
     '" height="',
     size,
     '">',
-    React.renderToStaticMarkup(React.createElement(Logo, { size: 32 })),
+    React.renderToStaticMarkup(React.createElement(Logo, { size: 32, fill: config.fill })),
     '</svg>'
   ].join('')
 
