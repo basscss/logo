@@ -18,6 +18,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _defaults = require('./defaults');
+
+var _defaults2 = _interopRequireDefault(_defaults);
+
 var Logo = (function (_React$Component) {
   function Logo() {
     _classCallCheck(this, Logo);
@@ -69,8 +73,7 @@ var Logo = (function (_React$Component) {
 
       // vertex based on intersection point
       var vertex = function vertex(x1, y1, x) {
-        // slope
-        var m = -amp / l;
+        var m = -amp / l; // slope
         var y = m * (x1 - x) + y1;
         return y;
       };
@@ -148,16 +151,7 @@ Logo.propTypes = {
   grid: _react2['default'].PropTypes.bool
 };
 
-Logo.defaultProps = {
-  size: 48,
-  amplitude: 5.5,
-  wavelength: 8,
-  ratio: 2,
-  strokeWidth: 2,
-  fill: 'currentcolor',
-  guides: false,
-  grid: false
-};
+Logo.defaultProps = _defaults2['default'];
 
 exports['default'] = Logo;
 module.exports = exports['default'];

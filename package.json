@@ -2,12 +2,13 @@
   "name": "basscss-logo",
   "version": "1.0.0",
   "description": "React component and SVG logo for Basscss",
-  "main": "index.js",
+  "main": "Logo.js",
   "scripts": {
     "babel": "babel src --out-dir .",
     "watch": "babel src -w --out-dir .",
     "svg": "node scripts/svg", 
     "dev": "webpack-dev-server --progress --colors",
+    "demo": "webpack -p --progress --colors",
     "start": "npm run watch & npm run dev"
   },
   "author": "Brent Jackson",

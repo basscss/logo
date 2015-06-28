@@ -1,21 +1,16 @@
 
 import React from 'react'
 import Logo from '../Logo'
-import LogoStroke from '../LogoStroke'
 import Box from './Box.jsx'
 import Input from './Input.jsx'
 import Range from './Range.jsx'
+import defaults from '../defaults'
 
 class App extends React.Component {
 
   constructor () {
     super ()
-    this.state = {
-      amplitude: 4.5,
-      wavelength: 8,
-      ratio: 2,
-      strokeWidth: 2,
-    }
+    this.state = defaults
     this.handleChange = this.handleChange.bind(this)
   }
 
@@ -29,7 +24,6 @@ class App extends React.Component {
     let style = {
       fontFamily: 'sans-serif',
       padding: '2rem',
-      maxWidth: '48rem',
       margin: 'auto'
     }
     return (
@@ -94,30 +88,19 @@ class App extends React.Component {
             value={this.state.wavelength} />
           <Input
             type='number'
+            label='Ratio'
+            name='ratio'
+            step={.125}
+            onChange={this.handleChange}
+            value={this.state.ratio} />
+          <Input
+            type='number'
             label='Stroke Width'
             name='strokeWidth'
             step={.25}
             onChange={this.handleChange}
             value={this.state.strokeWidth} />
         </Box>
-        <div>
-          <Logo
-            {...this.state}
-            size={128} />
-        </div>
-        <div>
-          <LogoStroke
-            {...this.state}
-            size={128} />
-        </div>
-        {/*
-        <div>
-          <Logo size={64} />
-        </div>
-        <div>
-          <Logo />
-        </div>
-        */}
       </div>
     )
   }
