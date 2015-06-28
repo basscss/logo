@@ -2,6 +2,7 @@
 import React from 'react'
 import Logo from '../Logo'
 import Box from './Box.jsx'
+import Input from './Input.jsx'
 import Range from './Range.jsx'
 
 class App extends React.Component {
@@ -59,8 +60,31 @@ class App extends React.Component {
           <Range
             label='Stroke Width'
             id='strokeWidth'
-            min={0}
+            min={0.25}
             max={8}
+            step={.25}
+            onChange={this.handleChange}
+            value={this.state.strokeWidth} />
+        </Box>
+        <Box>
+          <Input
+            type='number'
+            label='Amplitude'
+            name='amplitude'
+            step={.25}
+            onChange={this.handleChange}
+            value={this.state.amplitude} />
+          <Input
+            type='number'
+            label='Wavelength'
+            name='wavelength'
+            step={.25}
+            onChange={this.handleChange}
+            value={this.state.wavelength} />
+          <Input
+            type='number'
+            label='Stroke Width'
+            name='strokeWidth'
             step={.25}
             onChange={this.handleChange}
             value={this.state.strokeWidth} />

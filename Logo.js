@@ -78,7 +78,14 @@ var Logo = (function (_React$Component) {
         }
       };
 
-      var d = ['M', rx(c - 2 * l, n2), ry(c, n1), 'L', c - l, vertex(rx(c, n1), ry(c, n1), c - l), 'L', c + l, vertex(rx(c, n1), ry(c, n1), c + l), 'L', rx(c + 2 * l, n2), ry(c, n - 90), 'L', rx(c + 2 * l, n1), ry(c, n + 90), 'L', c + l, vertex(rx(c, n2), ry(c, n2), c + l), 'L', c - l, vertex(rx(c, n2), ry(c, n2), c - l), 'L', rx(c - 2 * l, n1), ry(c, n2)].join(' ');
+      var d = ['M',
+      //rx(c - 2 * l, n2),
+      //ry(c, n1),
+      rx(c - 2 * l, n1), ry(c, n2), 'L', c - l, vertex(rx(c, n1), ry(c, n1), c - l), 'L', c + l, vertex(rx(c, n1), ry(c, n1), c + l), 'L', rx(c + 2 * l, n2), ry(c, n - 90),
+      //'L',
+      //rx(c + 2 * l, n1),
+      //ry(c, n + 90),
+      'L', c + l, vertex(rx(c, n2), ry(c, n2), c + l), 'L', c - l, vertex(rx(c, n2), ry(c, n2), c - l), 'L', rx(c - 2 * l, n1), ry(c, n2)].join(' ');
 
       var guides = false;
       if (this.props.guides) {
