@@ -45,13 +45,15 @@ class App extends React.Component {
             id='amplitude'
             min={0}
             max={16}
+            step={.25}
             onChange={this.handleChange}
             value={this.state.amplitude} />
           <Range
             label='Wavelength'
             id='wavelength'
-            min={0}
+            min={0.25}
             max={16}
+            step={.25}
             onChange={this.handleChange}
             value={this.state.wavelength} />
           <Range

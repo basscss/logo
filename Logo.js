@@ -48,63 +48,44 @@ var Logo = (function (_React$Component) {
         return r * 180 / Math.PI;
       };
 
-      var rx = function rx(c, r, n) {
+      // Points around circle for stroke width
+      var rx = function rx(c, n) {
         return c + r * Math.cos(rad(n));
       };
 
-      var ry = function ry(c, r, n) {
+      var ry = function ry(c, n) {
         return c + r * Math.sin(rad(n));
       };
 
-      // angle
+      // angle based on slope
       var n = deg(Math.atan(amp / l));
-      console.log('angle', n);
+      var n1 = n - 90;
+      var n2 = n + 90;
 
-      var slope = function slope(rise, run) {
-        return rise / run;
-      };
-
-      var intersectionY = function intersectionY(x1, y1, m, x2) {
-        // y2 - y1 = m * (x1 - x2)
-        var y2 = m * (x1 - x2) + y1;
-        return y2;
+      // vertex based on intersection point
+      var vertex = function vertex(x1, y1, x) {
+        // slope
+        var m = -amp / l;
+        var y = m * (x1 - x) + y1;
+        return y;
       };
 
       var styles = {
-        hide: {
-          fill: 'none'
-        },
         guide: {
-          fill: 'rgba(255,0,0,.125)',
-          stroke: 'red',
-          strokeWidth: .125
-        },
-        blue: {
-          fill: 'rgba(0,0,255,.75)'
-        },
-        cyan: {
-          fill: 'rgba(0,255,255,.75)'
-        },
-        magenta: {
-          fill: 'rgba(255,0,255,.75)'
-        },
-        red: {
-          fill: 'rgba(255,0,0,.75)'
-        },
-        text: {
-          fontSize: 2
+          fill: 'none',
+          stroke: 'rgba(255,0,0,.25)',
+          strokeWidth: .0625
         }
       };
 
-      var d = ['M', rx(c - 2 * l, r, n + 90), ry(c, r, n - 90), 'L', c - l, intersectionY(rx(c, r, n - 90), ry(c, r, n - 90), amp / -l, c - l), 'L', c + l, intersectionY(rx(c, r, n - 90), ry(c, r, n - 90), -amp / l, c + l), 'L', rx(c + 2 * l, r, n + 90), ry(c, r, n - 90), 'L', rx(c + 2 * l, r, n - 90), ry(c, r, n + 90), 'L', c + l, intersectionY(rx(c, r, n + 90), ry(c, r, n + 90), -amp / l, c + l), 'L', c - l, intersectionY(rx(c, r, n + 90), ry(c, r, n + 90), amp / -l, c - l), 'L', rx(c - 2 * l, r, n - 90), ry(c, r, n + 90)].join(' ');
+      var d = ['M', rx(c - 2 * l, n2), ry(c, n1), 'L', c - l, vertex(rx(c, n1), ry(c, n1), c - l), 'L', c + l, vertex(rx(c, n1), ry(c, n1), c + l), 'L', rx(c + 2 * l, n2), ry(c, n - 90), 'L', rx(c + 2 * l, n1), ry(c, n + 90), 'L', c + l, vertex(rx(c, n2), ry(c, n2), c + l), 'L', c - l, vertex(rx(c, n2), ry(c, n2), c - l), 'L', rx(c - 2 * l, n1), ry(c, n2)].join(' ');
 
       var guides = false;
       if (this.props.guides) {
         guides = _react2['default'].createElement(
           'g',
-          { stroke: 'rgba(0,0,255,.25)',
-            strokeWidth: '.125' },
-          _react2['default'].createElement('path', { d: ['M', c, 0, 'L', c, w, 'M', 0, c, 'L', w, c].join(' ') })
+          { style: styles.guide },
+          _react2['default'].createElement('path', { d: ['M', c, 0, 'L', c, w, 'M', 0, c, 'L', w, c, 'M', 0, 0, 'L', w, 0, 'L', w, w, 'L', 0, w, 'L', 0, 0, 'M', c - l, 0, 'L', c - l, w, 'M', c + l, 0, 'L', c + l, w, 'M', 0, c - amp, 'L', w, c - amp, 'M', 0, c + amp, 'L', w, c + amp].join(' ') })
         );
       }
 
@@ -114,77 +95,8 @@ var Logo = (function (_React$Component) {
           width: size,
           height: size,
           fill: fill },
-        _react2['default'].createElement('path', { d: d }),
-        _react2['default'].createElement(
-          'g',
-          { id: 'circles', style: styles.hide },
-          _react2['default'].createElement('circle', { cx: c - 2 * l, cy: c, r: r }),
-          _react2['default'].createElement('circle', { cx: c - l, cy: c - amp, r: r }),
-          _react2['default'].createElement('circle', { cx: c + l, cy: c + amp, r: r }),
-          _react2['default'].createElement('circle', { cx: c + 2 * l, cy: c, r: r })
-        ),
-        _react2['default'].createElement(
-          'g',
-          { style: styles.hide },
-          _react2['default'].createElement('circle', { cx: rx(c - l, r, n - 90), cy: ry(c - amp, r, n - 90), r: .25 }),
-          _react2['default'].createElement('circle', { cx: rx(c + l, r, n - 90), cy: ry(c + amp, r, n - 90), r: .25 })
-        ),
-        _react2['default'].createElement(
-          'g',
-          { style: styles.hide },
-          _react2['default'].createElement('circle', { cx: rx(c + l, r, n + 90), cy: ry(c + amp, r, n - 90), r: .25 }),
-          _react2['default'].createElement('circle', { cx: rx(c + 2 * l, r, n + 90), cy: ry(c, r, n - 90), r: .25 })
-        ),
-        _react2['default'].createElement(
-          'g',
-          { style: styles.hide },
-          _react2['default'].createElement('circle', { cx: rx(c - l, r, n + 90), cy: ry(c - amp, r, n + 90), r: .25 }),
-          _react2['default'].createElement('circle', { cx: rx(c + l, r, n + 90), cy: ry(c + amp, r, n + 90), r: .25 })
-        ),
-        _react2['default'].createElement(
-          'g',
-          { style: styles.hide },
-          _react2['default'].createElement('circle', { cx: rx(c + 2 * l, r, n - 90), cy: ry(c, r, n + 90), r: .25 }),
-          _react2['default'].createElement('circle', { cx: rx(c + l, r, n - 90), cy: ry(c + amp, r, n + 90), r: .25 })
-        ),
-        _react2['default'].createElement(
-          'g',
-          { style: styles.hide },
-          _react2['default'].createElement('circle', { cx: c, cy: c, r: .25 }),
-          _react2['default'].createElement('circle', {
-            cx: rx(c, r, n - 90),
-            cy: ry(c, r, n - 90),
-            r: .25 })
-        ),
-        _react2['default'].createElement(
-          'g',
-          { style: styles.hide },
-          _react2['default'].createElement('circle', {
-            cx: c - l,
-            cy: intersectionY(rx(c, r, n - 90), ry(c, r, n - 90), amp / -l, c - l),
-            r: .25 }),
-          _react2['default'].createElement('circle', {
-            cx: c + l,
-            cy: intersectionY(rx(c, r, n - 90), ry(c, r, n - 90), -amp / l, c + l),
-            r: .25 })
-        ),
-        _react2['default'].createElement(
-          'g',
-          { style: styles.hide },
-          _react2['default'].createElement('circle', {
-            cx: c - l,
-            cy: intersectionY(rx(c, r, n + 90), ry(c, r, n + 90), amp / -l, c - l),
-            r: .25 }),
-          _react2['default'].createElement('circle', {
-            cx: c + l,
-            cy: intersectionY(rx(c, r, n + 90), ry(c, r, n + 90), -amp / l, c + l),
-            r: .25 })
-        ),
-        _react2['default'].createElement(
-          'g',
-          { style: styles.hide },
-          _react2['default'].createElement('path', { d: ['M', rx(c - l, r, n - 90), ry(c - amp, r, n - 90), 'L', rx(c + l, r, n - 90), ry(c + amp, r, n - 90), 'L', rx(c + l, r, n + 90), ry(c + amp, r, n - 90), 'L', rx(c + 2 * l, r, n + 90), ry(c, r, n - 90), 'L', rx(c + 2 * l, r, n - 90), ry(c, r, n + 90), 'L', rx(c + l, r, n - 90), ry(c + amp, r, n + 90), 'L', rx(c + l, r, n + 90), ry(c + amp, r, n + 90), 'L', rx(c - l, r, n + 90), ry(c - amp, r, n + 90), 'L', rx(c - l, r, n - 90), ry(c - amp, r, n + 90), 'L', rx(c - 2 * l, r, n - 90), ry(c, r, n + 90), 'L', rx(c - 2 * l, r, n + 90), ry(c, r, n - 90), 'L', rx(c - l, r, n + 90), ry(c - amp, r, n - 90)].join(' ') })
-        )
+        guides,
+        _react2['default'].createElement('path', { d: d })
       );
     }
   }]);
@@ -211,4 +123,3 @@ Logo.defaultProps = {
 
 exports['default'] = Logo;
 module.exports = exports['default'];
-/* guides */

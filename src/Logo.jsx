@@ -22,174 +22,97 @@ class Logo extends React.Component {
       return r * 180/Math.PI
     }
 
-    var rx = function(c, r, n) {
+    // Points around circle for stroke width
+    var rx = function(c, n) {
       return c + r * Math.cos(rad(n))
     }
 
-    var ry = function(c, r, n) {
+    var ry = function(c, n) {
       return c + r * Math.sin(rad(n))
     }
 
-    // angle
+    // angle based on slope
     let n = deg(Math.atan(amp/l))
-    console.log('angle', n)
+    let n1 = n - 90
+    let n2 = n + 90
 
-    let slope = function(rise, run) {
-      return rise / run
-    }
-
-    let intersectionY = function(x1, y1, m, x2) {
-      // y2 - y1 = m * (x1 - x2)
-      let y2 = m * (x1 - x2) + y1
-      return y2
+    // vertex based on intersection point
+    let vertex = function(x1, y1, x) {
+      // slope
+      let m = -amp / l
+      let y = m * (x1 - x) + y1
+      return y
     }
 
     let styles = {
-      hide: {
-        fill: 'none'
-      },
       guide: {
-        fill: 'rgba(255,0,0,.125)',
-        stroke: 'red',
-        strokeWidth: .125
-      },
-      blue: {
-        fill: 'rgba(0,0,255,.75)'
-      },
-      cyan: {
-        fill: 'rgba(0,255,255,.75)'
-      },
-      magenta: {
-        fill: 'rgba(255,0,255,.75)'
-      },
-      red: {
-        fill: 'rgba(255,0,0,.75)'
-      },
-      text: {
-        fontSize: 2
+        fill: 'none',
+        stroke: 'rgba(255,0,0,.25)',
+        strokeWidth: .0625
       }
     }
 
     let d = [
       'M',
-      rx(c - 2 * l, r, n + 90),
-      ry(c, r, n - 90),
+      rx(c - 2 * l, n2),
+      ry(c, n1),
       'L',
       c - l,
-      intersectionY(rx(c, r, n - 90), ry(c, r, n - 90), (amp / -l), c - l),
+      vertex(rx(c, n1), ry(c, n1), c - l),
       'L',
       c + l,
-      intersectionY(rx(c, r, n - 90), ry(c, r, n - 90), (-amp / l), c + l),
+      vertex(rx(c, n1), ry(c, n1), c + l),
       'L',
-      rx(c + 2 * l, r, n + 90),
-      ry(c, r, n - 90),
+      rx(c + 2 * l, n2),
+      ry(c, n - 90),
       'L',
-      rx(c + 2 * l, r, n - 90),
-      ry(c, r, n + 90),
+      rx(c + 2 * l, n1),
+      ry(c, n + 90),
       'L',
       c + l,
-      intersectionY(rx(c, r, n + 90), ry(c, r, n + 90), (-amp / l), c + l),
+      vertex(rx(c, n2), ry(c, n2), c + l),
       'L',
       c - l,
-      intersectionY(rx(c, r, n + 90), ry(c, r, n + 90), (amp / -l), c -l),
+      vertex(rx(c, n2), ry(c, n2), c -l),
       'L',
-      rx(c - 2 * l, r, n - 90),
-      ry(c, r, n + 90)
+      rx(c - 2 * l, n1),
+      ry(c, n2)
     ].join(' ')
 
     let guides = false
     if (this.props.guides) {
       guides = (
-        <g stroke='rgba(0,0,255,.25)'
-          strokeWidth='.125'>
+        <g style={styles.guide}>
           <path d={[
               'M', c, 0,
               'L', c, w,
               'M', 0, c,
-              'L', w, c
+              'L', w, c,
+              'M', 0, 0,
+              'L', w, 0,
+              'L', w, w,
+              'L', 0, w,
+              'L', 0, 0,
+              'M', c - l, 0,
+              'L', c - l, w,
+              'M', c + l, 0,
+              'L', c + l, w,
+              'M', 0, c - amp,
+              'L', w, c - amp,
+              'M', 0, c + amp,
+              'L', w, c + amp,
             ].join(' ')} />
         </g>
       )
     }
-
 
     return (
       <svg viewBox={viewBox}
         width={size}
         height={size}
         fill={fill}>
-        {/* guides */}
+        {guides}
         <path d={d} />
-
-        <g id='circles' style={styles.hide}>
-          <circle cx={(c - 2 * l)} cy={c} r={r} />
-          <circle cx={(c - l)} cy={c - amp} r={r} />
-          <circle cx={(c + l)} cy={c + amp} r={r} />
-          <circle cx={(c + 2 * l)} cy={c} r={r} />
-        </g>
-
-        <g style={styles.hide}>
-          <circle cx={rx(c - l, r, n - 90)} cy={ry(c - amp, r, n - 90)} r={.25} />
-          <circle cx={rx(c + l, r, n - 90)} cy={ry(c + amp, r, n - 90)} r={.25} />
-        </g>
-        <g style={styles.hide}>
-          <circle cx={rx(c + l, r, n + 90)} cy={ry(c + amp, r, n - 90)} r={.25} />
-          <circle cx={rx(c + 2 * l, r, n + 90)} cy={ry(c, r, n - 90)} r={.25} />
-        </g>
-        <g style={styles.hide}>
-          <circle cx={rx(c - l, r, n + 90)} cy={ry(c - amp, r, n + 90)} r={.25} />
-          <circle cx={rx(c + l, r, n + 90)} cy={ry(c + amp, r, n + 90)} r={.25} />
-        </g>
-        <g style={styles.hide}>
-          <circle cx={rx(c + 2 * l, r, n - 90)} cy={ry(c, r, n + 90)} r={.25} />
-          <circle cx={rx(c + l, r, n - 90)} cy={ry(c + amp, r, n + 90)} r={.25} />
-        </g>
-
-        <g style={styles.hide}>
-          <circle cx={c} cy={c} r={.25} />
-          <circle
-            cx={rx(c, r, n - 90)}
-            cy={ry(c, r, n - 90)}
-            r={.25} />
-        </g>
-
-        <g style={styles.hide}>
-          <circle
-            cx={c - l}
-            cy={intersectionY(rx(c, r, n - 90), ry(c, r, n - 90), (amp / -l), c - l)}
-            r={.25} />
-          <circle
-            cx={c + l}
-            cy={intersectionY(rx(c, r, n - 90), ry(c, r, n - 90), (-amp / l), c + l)}
-            r={.25} />
-        </g>
-        <g style={styles.hide}>
-          <circle
-            cx={c - l}
-            cy={intersectionY(rx(c, r, n + 90), ry(c, r, n + 90), (amp / -l), c - l)}
-            r={.25} />
-          <circle
-            cx={c + l}
-            cy={intersectionY(rx(c, r, n + 90), ry(c, r, n + 90), (-amp / l), c + l)}
-            r={.25} />
-        </g>
-
-        <g style={styles.hide}>
-          <path d={[
-            'M', rx(c - l, r, n - 90), ry(c - amp, r, n - 90), 
-            'L', rx(c + l, r, n - 90), ry(c + amp, r, n - 90),
-            'L', rx(c + l, r, n + 90), ry(c + amp, r, n - 90),
-            'L', rx(c + 2 * l, r, n + 90), ry(c, r, n - 90),
-            'L', rx(c + 2 * l, r, n - 90), ry(c, r, n + 90),
-            'L', rx(c + l, r, n - 90), ry(c + amp, r, n + 90),
-            'L', rx(c + l, r, n + 90), ry(c + amp, r, n + 90),
-            'L', rx(c - l, r, n + 90), ry(c - amp, r, n + 90),
-            'L', rx(c - l, r, n - 90), ry(c - amp, r, n + 90),
-            'L', rx(c - 2 * l, r, n - 90), ry(c, r, n + 90),
-            'L', rx(c - 2 * l, r, n + 90), ry(c, r, n - 90),
-            'L', rx(c - l, r, n + 90), ry(c - amp, r, n - 90),
-          ].join(' ')} />
-        </g>
       </svg>
     )
   }
