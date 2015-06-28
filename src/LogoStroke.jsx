@@ -8,14 +8,9 @@ class Logo extends React.Component {
     let amp = this.props.amplitude
     let l = this.props.wavelength
     let r = this.props.strokeWidth
-    let ratio = this.props.ratio
 
     let w = 32
     let c = w / 2
-    let x1 = c - ratio * l
-    let x2 = c - l
-    let x3 = c + l
-    let x4 = c + ratio * l
     let viewBox = [0, 0, w, w].join(' ')
     let fill = this.props.fill
 
@@ -54,35 +49,33 @@ class Logo extends React.Component {
         fill: 'none',
         stroke: 'rgba(255,0,0,.25)',
         strokeWidth: .0625
-      },
-      grid: {
-        fill: 'none',
-        stroke: 'rgba(0,0,255,.25)',
-        strokeWidth: .0625
       }
     }
 
     let d = [
       'M',
-      rx(x1, n1),
-      ry(c, n2),
+      rx(c - 2 * l, n2),
+      ry(c, n1),
       'L',
-      x2,
-      vertex(rx(c, n1), ry(c, n1), x2),
+      c - l,
+      vertex(rx(c, n1), ry(c, n1), c - l),
       'L',
-      x3,
-      vertex(rx(c, n1), ry(c, n1), x3),
+      c + l,
+      vertex(rx(c, n1), ry(c, n1), c + l),
       'L',
-      rx(x4, n2),
+      rx(c + 2 * l, n2),
       ry(c, n - 90),
       'L',
-      x3,
-      vertex(rx(c, n2), ry(c, n2), x3),
+      rx(c + 2 * l, n1),
+      ry(c, n + 90),
       'L',
-      x2,
-      vertex(rx(c, n2), ry(c, n2), x2),
+      c + l,
+      vertex(rx(c, n2), ry(c, n2), c + l),
       'L',
-      rx(x1, n1),
+      c - l,
+      vertex(rx(c, n2), ry(c, n2), c -l),
+      'L',
+      rx(c - 2 * l, n1),
       ry(c, n2)
     ].join(' ')
 
@@ -113,40 +106,11 @@ class Logo extends React.Component {
       )
     }
 
-    let grid = false
-    if (this.props.grid) {
-      function xGrid() {
-        let lines = ['M 0 0']
-        for (var i = 0; i < w; i++) {
-          lines.push([
-            'L', i, w,
-            'M', i + 1, 0
-          ].join(' '))
-        }
-        return lines.join(' ')
-      }
-      function yGrid() {
-        let lines = ['M 0 0']
-        for (var i = 0; i < w; i++) {
-          lines.push([
-            'L', w, i,
-            'M', 0, i + 1
-          ].join(' '))
-        }
-        return lines.join(' ')
-      }
-      grid = (
-        <path style={styles.grid}
-          d={[ xGrid(), yGrid() ].join(' ')} />
-      )
-    }
-
     return (
       <svg viewBox={viewBox}
         width={size}
         height={size}
         fill={fill}>
-        {grid}
         {guides}
         <path d={d} />
       </svg>
@@ -159,22 +123,17 @@ Logo.propTypes = {
   size: React.PropTypes.number,
   amplitude: React.PropTypes.number,
   wavelength: React.PropTypes.number,
-  ratio: React.PropTypes.number,
   strokeWidth: React.PropTypes.number,
   fill: React.PropTypes.string,
   guides: React.PropTypes.bool,
-  grid: React.PropTypes.bool,
 }
 
 Logo.defaultProps = {
   size: 48,
-  amplitude: 5.5,
+  amplitude: 4,
   wavelength: 8,
-  ratio: 2,
-  strokeWidth: 2,
-  fill: 'currentcolor',
-  guides: false,
-  grid: false
+  strokeWidth: 1,
+  fill: 'currentcolor'
 }
 
 export default Logo

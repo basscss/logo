@@ -1,6 +1,7 @@
 
 import React from 'react'
 import Logo from '../Logo'
+import LogoStroke from '../LogoStroke'
 import Box from './Box.jsx'
 import Input from './Input.jsx'
 import Range from './Range.jsx'
@@ -10,9 +11,10 @@ class App extends React.Component {
   constructor () {
     super ()
     this.state = {
-      amplitude: 4,
-      wavelength: 7,
-      strokeWidth: 1,
+      amplitude: 4.5,
+      wavelength: 8,
+      ratio: 2,
+      strokeWidth: 2,
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -34,11 +36,12 @@ class App extends React.Component {
       <div style={style}>
         <h1>Basscss Logo Dev</h1>
         <div>
-          <Logo size={512} 
+          <Logo
+            {...this.state}
+            size={512} 
             guides
-            amplitude={this.state.amplitude}
-            wavelength={this.state.wavelength}
-            strokeWidth={this.state.strokeWidth} />
+            grid />
+          <Logo {...this.state} size={48} />
         </div>
         <Box>
           <Range
@@ -57,6 +60,14 @@ class App extends React.Component {
             step={.25}
             onChange={this.handleChange}
             value={this.state.wavelength} />
+          <Range
+            label='Ratio'
+            id='ratio'
+            min={0.25}
+            max={4}
+            step={.125}
+            onChange={this.handleChange}
+            value={this.state.ratio} />
           <Range
             label='Stroke Width'
             id='strokeWidth'
@@ -90,9 +101,14 @@ class App extends React.Component {
             value={this.state.strokeWidth} />
         </Box>
         <div>
-          <Logo size={128}
-            amplitude={this.state.amplitude}
-            wavelength={this.state.wavelength} />
+          <Logo
+            {...this.state}
+            size={128} />
+        </div>
+        <div>
+          <LogoStroke
+            {...this.state}
+            size={128} />
         </div>
         {/*
         <div>

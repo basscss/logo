@@ -6,6 +6,7 @@
   "scripts": {
     "babel": "babel src --out-dir .",
     "watch": "babel src -w --out-dir .",
+    "svg": "node scripts/svg", 
     "dev": "webpack-dev-server --progress --colors",
     "start": "npm run watch & npm run dev"
   },

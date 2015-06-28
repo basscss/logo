@@ -34,14 +34,9 @@ var Logo = (function (_React$Component) {
       var amp = this.props.amplitude;
       var l = this.props.wavelength;
       var r = this.props.strokeWidth;
-      var ratio = this.props.ratio;
 
       var w = 32;
       var c = w / 2;
-      var x1 = c - ratio * l;
-      var x2 = c - l;
-      var x3 = c + l;
-      var x4 = c + ratio * l;
       var viewBox = [0, 0, w, w].join(' ');
       var fill = this.props.fill;
 
@@ -80,15 +75,10 @@ var Logo = (function (_React$Component) {
           fill: 'none',
           stroke: 'rgba(255,0,0,.25)',
           strokeWidth: .0625
-        },
-        grid: {
-          fill: 'none',
-          stroke: 'rgba(0,0,255,.25)',
-          strokeWidth: .0625
         }
       };
 
-      var d = ['M', rx(x1, n1), ry(c, n2), 'L', x2, vertex(rx(c, n1), ry(c, n1), x2), 'L', x3, vertex(rx(c, n1), ry(c, n1), x3), 'L', rx(x4, n2), ry(c, n - 90), 'L', x3, vertex(rx(c, n2), ry(c, n2), x3), 'L', x2, vertex(rx(c, n2), ry(c, n2), x2), 'L', rx(x1, n1), ry(c, n2)].join(' ');
+      var d = ['M', rx(c - 2 * l, n2), ry(c, n1), 'L', c - l, vertex(rx(c, n1), ry(c, n1), c - l), 'L', c + l, vertex(rx(c, n1), ry(c, n1), c + l), 'L', rx(c + 2 * l, n2), ry(c, n - 90), 'L', rx(c + 2 * l, n1), ry(c, n + 90), 'L', c + l, vertex(rx(c, n2), ry(c, n2), c + l), 'L', c - l, vertex(rx(c, n2), ry(c, n2), c - l), 'L', rx(c - 2 * l, n1), ry(c, n2)].join(' ');
 
       var guides = false;
       if (this.props.guides) {
@@ -99,35 +89,12 @@ var Logo = (function (_React$Component) {
         );
       }
 
-      var grid = false;
-      if (this.props.grid) {
-        var xGrid = function xGrid() {
-          var lines = ['M 0 0'];
-          for (var i = 0; i < w; i++) {
-            lines.push(['L', i, w, 'M', i + 1, 0].join(' '));
-          }
-          return lines.join(' ');
-        };
-
-        var yGrid = function yGrid() {
-          var lines = ['M 0 0'];
-          for (var i = 0; i < w; i++) {
-            lines.push(['L', w, i, 'M', 0, i + 1].join(' '));
-          }
-          return lines.join(' ');
-        };
-
-        grid = _react2['default'].createElement('path', { style: styles.grid,
-          d: [xGrid(), yGrid()].join(' ') });
-      }
-
       return _react2['default'].createElement(
         'svg',
         { viewBox: viewBox,
           width: size,
           height: size,
           fill: fill },
-        grid,
         guides,
         _react2['default'].createElement('path', { d: d })
       );
@@ -141,22 +108,17 @@ Logo.propTypes = {
   size: _react2['default'].PropTypes.number,
   amplitude: _react2['default'].PropTypes.number,
   wavelength: _react2['default'].PropTypes.number,
-  ratio: _react2['default'].PropTypes.number,
   strokeWidth: _react2['default'].PropTypes.number,
   fill: _react2['default'].PropTypes.string,
-  guides: _react2['default'].PropTypes.bool,
-  grid: _react2['default'].PropTypes.bool
+  guides: _react2['default'].PropTypes.bool
 };
 
 Logo.defaultProps = {
   size: 48,
-  amplitude: 5.5,
+  amplitude: 4,
   wavelength: 8,
-  ratio: 2,
-  strokeWidth: 2,
-  fill: 'currentcolor',
-  guides: false,
-  grid: false
+  strokeWidth: 1,
+  fill: 'currentcolor'
 };
 
 exports['default'] = Logo;
