@@ -10,15 +10,15 @@ class App extends React.Component {
     super ()
     this.state = {
       amplitude: 4,
-      wavelength: 7
+      wavelength: 7,
+      strokeWidth: 1,
     }
     this.handleChange = this.handleChange.bind(this)
   }
 
   handleChange (e) {
     let state = this.state
-    state[e.target.name] = parseInt(e.target.value, 10)
-    console.log(e.target.name)
+    state[e.target.name] = parseFloat(e.target.value, 10)
     this.setState(state)
   }
 
@@ -36,14 +36,15 @@ class App extends React.Component {
           <Logo size={512} 
             guides
             amplitude={this.state.amplitude}
-            wavelength={this.state.wavelength} />
+            wavelength={this.state.wavelength}
+            strokeWidth={this.state.strokeWidth} />
         </div>
         <Box>
           <Range
             label='Amplitude'
             id='amplitude'
             min={0}
-            max={8}
+            max={16}
             onChange={this.handleChange}
             value={this.state.amplitude} />
           <Range
@@ -53,6 +54,14 @@ class App extends React.Component {
             max={16}
             onChange={this.handleChange}
             value={this.state.wavelength} />
+          <Range
+            label='Stroke Width'
+            id='strokeWidth'
+            min={0}
+            max={8}
+            step={.25}
+            onChange={this.handleChange}
+            value={this.state.strokeWidth} />
         </Box>
         <div>
           <Logo size={128}

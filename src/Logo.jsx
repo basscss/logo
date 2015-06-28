@@ -12,7 +12,7 @@ class Logo extends React.Component {
     let w = 32
     let c = w / 2
     let viewBox = [0, 0, w, w].join(' ')
-    let fill = 'none' //this.props.fill
+    let fill = this.props.fill
 
     let rad = function(a) {
       return Math.PI * a / 180
@@ -33,6 +33,42 @@ class Logo extends React.Component {
     // angle
     let n = deg(Math.atan(amp/l))
     console.log('angle', n)
+
+    let slope = function(rise, run) {
+      return rise / run
+    }
+
+    let intersectionY = function(x1, y1, m, x2) {
+      // y2 - y1 = m * (x1 - x2)
+      let y2 = m * (x1 - x2) + y1
+      return y2
+    }
+
+    let styles = {
+      hide: {
+        fill: 'none'
+      },
+      guide: {
+        fill: 'rgba(255,0,0,.125)',
+        stroke: 'red',
+        strokeWidth: .125
+      },
+      blue: {
+        fill: 'rgba(0,0,255,.75)'
+      },
+      cyan: {
+        fill: 'rgba(0,255,255,.75)'
+      },
+      magenta: {
+        fill: 'rgba(255,0,255,.75)'
+      },
+      red: {
+        fill: 'rgba(255,0,0,.75)'
+      },
+      text: {
+        fontSize: 2
+      }
+    }
 
     let d = [
       'M', 0, (c + r),
@@ -66,25 +102,6 @@ class Logo extends React.Component {
       )
     }
 
-    let styles = {
-      guide: {
-        fill: 'rgba(255,0,0,.125)',
-        stroke: 'red',
-        strokeWidth: .125
-      },
-      blue: {
-        fill: 'rgba(0,0,255,.75)'
-      },
-      cyan: {
-        fill: 'rgba(0,255,255,.75)'
-      },
-      magenta: {
-        fill: 'rgba(255,0,255,.75)'
-      },
-      red: {
-        fill: 'rgba(255,0,0,.75)'
-      }
-    }
 
     return (
       <svg viewBox={viewBox}
@@ -92,29 +109,77 @@ class Logo extends React.Component {
         height={size}
         fill={fill}>
         {guides}
-        <path d={d} />
-        <path d={d2} style={styles.guide} />
+        <path d={d} style={styles.green} />
+        <path d={d2} style={styles.blue} />
         <g id='circles' style={styles.guide}>
           <circle cx={(c - 2 * l)} cy={c} r={r} />
           <circle cx={(c - l)} cy={c - amp} r={r} />
           <circle cx={(c + l)} cy={c + amp} r={r} />
           <circle cx={(c + 2 * l)} cy={c} r={r} />
         </g>
-        <g style={styles.blue}>
+
+        <g style={styles.hide}>
           <circle cx={rx(c - l, r, n - 90)} cy={ry(c - amp, r, n - 90)} r={.25} />
           <circle cx={rx(c + l, r, n - 90)} cy={ry(c + amp, r, n - 90)} r={.25} />
         </g>
-        <g style={styles.cyan}>
+        <g style={styles.hide}>
           <circle cx={rx(c + l, r, n + 90)} cy={ry(c + amp, r, n - 90)} r={.25} />
           <circle cx={rx(c + 2 * l, r, n + 90)} cy={ry(c, r, n - 90)} r={.25} />
         </g>
-        <g style={styles.magenta}>
+        <g style={styles.hide}>
           <circle cx={rx(c - l, r, n + 90)} cy={ry(c - amp, r, n + 90)} r={.25} />
           <circle cx={rx(c + l, r, n + 90)} cy={ry(c + amp, r, n + 90)} r={.25} />
         </g>
-        <g style={styles.red}>
+        <g style={styles.hide}>
           <circle cx={rx(c + 2 * l, r, n - 90)} cy={ry(c, r, n + 90)} r={.25} />
           <circle cx={rx(c + l, r, n - 90)} cy={ry(c + amp, r, n + 90)} r={.25} />
+        </g>
+
+        <g style={styles.hide}>
+          <circle cx={c} cy={c} r={.25} />
+          <circle cx={rx(c, r, n - 90)} cy={ry(c, r, n - 90)} r={.25} />
+          <circle
+            cx={rx(c - l, r, n - 90)}
+            cy={ry(c - amp, r, n - 90)}
+            r={.25} />
+        </g>
+
+        <g style={styles.green}>
+          <circle
+            cx={c - l}
+            cy={intersectionY(rx(c, r, n - 90), ry(c, r, n - 90), (amp / -l), c - l)}
+            r={.25} />
+          <circle
+            cx={c + l}
+            cy={intersectionY(rx(c, r, n - 90), ry(c, r, n - 90), (-amp / l), c + l)}
+            r={.25} />
+        </g>
+        <g style={styles.blue}>
+          <circle
+            cx={c - l}
+            cy={intersectionY(rx(c, r, n + 90), ry(c, r, n + 90), (amp / -l), c - l)}
+            r={.25} />
+          <circle
+            cx={c + l}
+            cy={intersectionY(rx(c, r, n + 90), ry(c, r, n + 90), (-amp / l), c + l)}
+            r={.25} />
+        </g>
+
+        <g style={styles.guide}>
+          <path d={[
+            'M', rx(c - l, r, n - 90), ry(c - amp, r, n - 90), 
+            'L', rx(c + l, r, n - 90), ry(c + amp, r, n - 90),
+            'L', rx(c + l, r, n + 90), ry(c + amp, r, n - 90),
+            'L', rx(c + 2 * l, r, n + 90), ry(c, r, n - 90),
+            'L', rx(c + 2 * l, r, n - 90), ry(c, r, n + 90),
+            'L', rx(c + l, r, n - 90), ry(c + amp, r, n + 90),
+            'L', rx(c + l, r, n + 90), ry(c + amp, r, n + 90),
+            'L', rx(c - l, r, n + 90), ry(c - amp, r, n + 90),
+            'L', rx(c - l, r, n - 90), ry(c - amp, r, n + 90),
+            'L', rx(c - 2 * l, r, n - 90), ry(c, r, n + 90),
+            'L', rx(c - 2 * l, r, n + 90), ry(c, r, n - 90),
+            'L', rx(c - l, r, n + 90), ry(c - amp, r, n - 90),
+          ].join(' ')} />
         </g>
       </svg>
     )
