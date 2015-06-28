@@ -1,7 +1,7 @@
 # basscss-logo
 Generative logo for Basscss. Built with React.
 
-![](/images/basscss-64.svg?raw=true)
+![Logo](/images/basscss-64.png?raw=true)
 
 
 ## React Component Usage
