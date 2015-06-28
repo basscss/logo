@@ -71,20 +71,30 @@ class Logo extends React.Component {
     }
 
     let d = [
-      'M', 0, (c + r),
-      'L', (c - l), (c - amp),
-      'L', (c + l), (c + amp - r),
-      'L', w, (c - r),
-      'L', (c + l), (c + amp),
-      'L', (c - l), (c - amp + r),
-      'z'
-    ].join(' ')
-
-    let d2 = [
-      'M', c - 2 * l, c,
-      'L', c - l, c - amp,
-      'L', c + l, c + amp,
-      'L', c + 2 * l, c
+      'M',
+      rx(c - 2 * l, r, n + 90),
+      ry(c, r, n - 90),
+      'L',
+      c - l,
+      intersectionY(rx(c, r, n - 90), ry(c, r, n - 90), (amp / -l), c - l),
+      'L',
+      c + l,
+      intersectionY(rx(c, r, n - 90), ry(c, r, n - 90), (-amp / l), c + l),
+      'L',
+      rx(c + 2 * l, r, n + 90),
+      ry(c, r, n - 90),
+      'L',
+      rx(c + 2 * l, r, n - 90),
+      ry(c, r, n + 90),
+      'L',
+      c + l,
+      intersectionY(rx(c, r, n + 90), ry(c, r, n + 90), (-amp / l), c + l),
+      'L',
+      c - l,
+      intersectionY(rx(c, r, n + 90), ry(c, r, n + 90), (amp / -l), c -l),
+      'L',
+      rx(c - 2 * l, r, n - 90),
+      ry(c, r, n + 90)
     ].join(' ')
 
     let guides = false
@@ -108,10 +118,10 @@ class Logo extends React.Component {
         width={size}
         height={size}
         fill={fill}>
-        {guides}
-        <path d={d} style={styles.green} />
-        <path d={d2} style={styles.blue} />
-        <g id='circles' style={styles.guide}>
+        {/* guides */}
+        <path d={d} />
+
+        <g id='circles' style={styles.hide}>
           <circle cx={(c - 2 * l)} cy={c} r={r} />
           <circle cx={(c - l)} cy={c - amp} r={r} />
           <circle cx={(c + l)} cy={c + amp} r={r} />
@@ -137,14 +147,13 @@ class Logo extends React.Component {
 
         <g style={styles.hide}>
           <circle cx={c} cy={c} r={.25} />
-          <circle cx={rx(c, r, n - 90)} cy={ry(c, r, n - 90)} r={.25} />
           <circle
-            cx={rx(c - l, r, n - 90)}
-            cy={ry(c - amp, r, n - 90)}
+            cx={rx(c, r, n - 90)}
+            cy={ry(c, r, n - 90)}
             r={.25} />
         </g>
 
-        <g style={styles.green}>
+        <g style={styles.hide}>
           <circle
             cx={c - l}
             cy={intersectionY(rx(c, r, n - 90), ry(c, r, n - 90), (amp / -l), c - l)}
@@ -154,7 +163,7 @@ class Logo extends React.Component {
             cy={intersectionY(rx(c, r, n - 90), ry(c, r, n - 90), (-amp / l), c + l)}
             r={.25} />
         </g>
-        <g style={styles.blue}>
+        <g style={styles.hide}>
           <circle
             cx={c - l}
             cy={intersectionY(rx(c, r, n + 90), ry(c, r, n + 90), (amp / -l), c - l)}
@@ -165,7 +174,7 @@ class Logo extends React.Component {
             r={.25} />
         </g>
 
-        <g style={styles.guide}>
+        <g style={styles.hide}>
           <path d={[
             'M', rx(c - l, r, n - 90), ry(c - amp, r, n - 90), 
             'L', rx(c + l, r, n - 90), ry(c + amp, r, n - 90),
